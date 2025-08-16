@@ -19,6 +19,7 @@ public class Material {
     @Id
     private Integer id;
 
+    
     private String material;
     private String descripcion;
     private String almacen;

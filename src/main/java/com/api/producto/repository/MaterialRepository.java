@@ -11,4 +11,7 @@ import com.api.producto.model.Material;
 
 public interface MaterialRepository extends JpaRepository<Material, Integer> {
     List<Material> findByLocal(String local);
+    List<Material> findByMaterial(String material);
+    List<Material> findByLocalAndMaterial(String local, String material);
+
 }
