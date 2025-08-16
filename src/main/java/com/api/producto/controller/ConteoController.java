@@ -24,7 +24,7 @@ public class ConteoController {
     @Autowired
     private MaterialService materialService;
 
-    // ----------------- CONTEO -----------------
+ // ----------------- CONTEO -----------------
     @PostMapping("/conteo")
     public Material hacerConteo(
             @RequestHeader("Authorization") String authHeader,
@@ -38,20 +38,21 @@ public class ConteoController {
         Double cantidadContada = Double.valueOf(request.get("conteo").toString());
         String obs = (String) request.getOrDefault("obs", null);
 
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         String local;
         if (rol.equals("ADMINISTRADOR")) {
             local = (String) request.get("local"); // Admin puede escoger
         } else {
-            local = usuarioRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))
-                    .getLocal(); // Inventariador solo su local
+            local = usuario.getLocal(); // Inventariador solo su local
         }
 
         Material material = materialService.buscarPorIdYLocal(materialId, local);
         material.setConteo(cantidadContada);
         material.setObs(obs);
         material.setFecReg(LocalDateTime.now());
-        material.setUsuario(username);
+        material.setUsuario(usuario.getNombreCompleto()); // 👈 aquí el nombre completo
 
         return materialService.guardar(material);
     }
@@ -70,21 +71,23 @@ public class ConteoController {
         Double cantidadRecontada = Double.valueOf(request.get("reconteo").toString());
         String obs = (String) request.getOrDefault("obs", null);
 
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
         String local;
         if (rol.equals("ADMINISTRADOR")) {
             local = (String) request.get("local"); // Admin puede escoger
         } else {
-            local = usuarioRepository.findByUsername(username)
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))
-                    .getLocal(); // Inventariador solo su local
+            local = usuario.getLocal(); // Inventariador solo su local
         }
 
         Material material = materialService.buscarPorIdYLocal(materialId, local);
         material.setReconteo(cantidadRecontada);
         material.setObs(obs);
         material.setFecReg(LocalDateTime.now());
-        material.setUsuario(username);
+        material.setUsuario(usuario.getNombreCompleto()); // 👈 aquí también
 
         return materialService.guardar(material);
     }
+
 }
