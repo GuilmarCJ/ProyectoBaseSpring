@@ -85,7 +85,7 @@ public class ConteoController {
         material.setReconteo(cantidadRecontada);
         material.setObs(obs);
         material.setFecReg(LocalDateTime.now());
-        material.setUsuario(usuario.getNombreCompleto()); // 👈 aquí también
+        material.setUsuario(usuario.getNombreCompleto()); 
 
         return materialService.guardar(material);
     }
