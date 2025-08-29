@@ -65,24 +65,24 @@ public class MaterialController {
         String rol = consulta.get("rol");
         String username = consulta.get("username");
 
+        // 🔹 Parámetros comunes
+        String local = filtros.get("local");
+        String material = filtros.get("material");
+        String idStr = filtros.get("id");
+        String descripcion = filtros.get("descripcion");
+        String cantidadStr = filtros.get("cantidad");
+
+        // 🔹 Convertir Strings a Integer si no son null/vacíos
+        Integer id = (idStr != null && !idStr.isEmpty()) ? Integer.parseInt(idStr) : null;
+        Integer cantidad = (cantidadStr != null && !cantidadStr.isEmpty()) ? Integer.parseInt(cantidadStr) : null;
+
         if (rol.equals("ADMINISTRADOR")) {
-            // Admin puede pasar filtros más amplios
-            String local = filtros.get("local");
-            String material = filtros.get("material");
-            //Pida cpcionalmente el id
-            //Descripcion
-            //Cantidad(si quieres)
-           
-            return materialService.filtrarComoAdmin(local, material);
+            return materialService.filtrarComoAdmin(local, material, id, descripcion, cantidad);
         } else {
-            // Inventariador solo puede filtrar por material en su local
-            String material = filtros.get("material");
-            return materialService.filtrarComoInventariador(username, material);
-            //Pida cpcionalmente el id
-            //Descripcion
-            //Cantidad(si quieres)
+            return materialService.filtrarComoInventariador(username, material, id, descripcion, cantidad);
         }
     }
+
 
 
 }

@@ -28,27 +28,18 @@ public class MaterialService {
         }
     }
     
-    public List<Material> filtrarComoAdmin(String local, String material) {
-        if (local != null && material != null) {
-            return materialRepository.findByLocalAndMaterial(local, material);
-        } else if (local != null) {
-            return materialRepository.findByLocal(local);
-        } else if (material != null) {
-            return materialRepository.findByMaterial(material);
-        } else {
-            return materialRepository.findAll();
-        }
+    public List<Material> filtrarComoAdmin(String local, String material, Integer id, String descripcion, Integer cantidad) {
+        return materialRepository.buscarMateriales(local, material, id, descripcion, cantidad);
     }
 
-    public List<Material> filtrarComoInventariador(String username, String material) {
+    public List<Material> filtrarComoInventariador(String username, String material, Integer id, String descripcion, Integer cantidad) {
         String localUsuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"))
                 .getLocal();
-        if (material != null) {
-            return materialRepository.findByLocalAndMaterial(localUsuario, material);
-        }
-        return materialRepository.findByLocal(localUsuario);
+
+        return materialRepository.buscarMateriales(localUsuario, material, id, descripcion, cantidad);
     }
+
 
     
     public Material buscarPorIdYLocal(Integer id, String local) {
