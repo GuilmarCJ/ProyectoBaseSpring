@@ -49,7 +49,7 @@ public class UsuarioController {
     }
 
     // ----------------- Modificar Inventariador -----------------
-    @PutMapping("/modificar/{id}")
+    @PutMapping("/modificar/	")
     public ResponseEntity<?> modificarUsuario(
             @RequestHeader("Authorization") String authHeader,
             @PathVariable Integer id,

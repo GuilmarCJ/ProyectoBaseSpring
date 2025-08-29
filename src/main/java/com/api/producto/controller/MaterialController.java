@@ -69,11 +69,18 @@ public class MaterialController {
             // Admin puede pasar filtros más amplios
             String local = filtros.get("local");
             String material = filtros.get("material");
+            //Pida cpcionalmente el id
+            //Descripcion
+            //Cantidad(si quieres)
+           
             return materialService.filtrarComoAdmin(local, material);
         } else {
             // Inventariador solo puede filtrar por material en su local
             String material = filtros.get("material");
             return materialService.filtrarComoInventariador(username, material);
+            //Pida cpcionalmente el id
+            //Descripcion
+            //Cantidad(si quieres)
         }
     }
 
